@@ -85,52 +85,52 @@ void CreateVBO(void)
 	GLfloat Vertices[] =
 	{
 		  // inspre Oz'
-			-10.f, -10.f, -10.f,  -1.0f,  -1.0f, -1.0f,
-			 10.f, -10.f, -10.f,  1.0f,  -1.0f, -1.0f,
-			 10.f,  10.f, -10.f,  1.0f,  1.0f, -1.0f,
-			 10.f,  10.f, -10.f,  1.0f,  1.0f, -1.0f,
-			-10.f,  10.f, -10.f,  -1.0f,  1.0f, -1.0f,
-			-10.f, -10.f, -10.f,  -1.0f,  -1.0f, -1.0f,
+			(-1)*unit, (-1)*unit, (-1)*unit,  -1.0f,  -1.0f, -1.0f,
+			     unit, (-1)*unit, (-1)*unit,   1.0f,  -1.0f, -1.0f,
+			     unit,		unit, (-1)*unit,   1.0f,   1.0f, -1.0f,
+			     unit,		unit, (-1)*unit,   1.0f,   1.0f, -1.0f,
+			(-1)*unit,		unit, (-1)*unit,  -1.0f,   1.0f, -1.0f,
+			(-1)*unit, (-1)*unit, (-1)*unit,  -1.0f,  -1.0f, -1.0f,
 
 			// inspre Oz
-			-10.f, -10.f,  10.f,  -1.0f,  -1.0f,  1.0f,
-			 10.f, -10.f,  10.f,  1.0f,  -1.0f,  1.0f,
-			 10.f,  10.f,  10.f,  1.0f,  1.0f,  1.0f,
-			 10.f,  10.f,  10.f,  1.0f,  1.0f,  1.0f,
-			-10.f,  10.f,  10.f,  -1.0f,  1.0f,  1.0f,
-			-10.f, -10.f,  10.f,  -1.0f,  -1.0f,  1.0f,
+			(-1)*unit, (-1)*unit,  unit,  -1.0f,  -1.0f,  1.0f,
+				 unit, (-1)*unit,  unit,   1.0f,  -1.0f,  1.0f,
+				 unit,		unit,  unit,   1.0f,   1.0f,  1.0f,
+				 unit,		unit,  unit,   1.0f,   1.0f,  1.0f,
+			(-1)*unit,		unit,  unit,  -1.0f,   1.0f,  1.0f,
+			(-1)*unit, (-1)*unit,  unit,  -1.0f,  -1.0f,  1.0f,
 
 			// inspre Ox'
-			-10.f,  10.f,  10.f, -1.0f,  1.0f,  1.0f,
-			-10.f,  10.f, -10.f, -1.0f,  1.0f,  -1.0f,
-			-10.f, -10.f, -10.f, -1.0f,  -1.0f,  -1.0f,
-			-10.f, -10.f, -10.f, -1.0f,  -1.0f,  -1.0f,
-			-10.f, -10.f,  10.f, -1.0f,  -1.0f,  1.0f,
-			-10.f,  10.f,  10.f, -1.0f,  1.0f,  1.0f,
+			(-1)*unit,		unit,	   unit, -1.0f,   1.0f,   1.0f,
+			(-1)*unit,		unit, (-1)*unit, -1.0f,   1.0f,  -1.0f,
+			(-1)*unit, (-1)*unit, (-1)*unit, -1.0f,  -1.0f,  -1.0f,
+			(-1)*unit, (-1)*unit, (-1)*unit, -1.0f,  -1.0f,  -1.0f,
+			(-1)*unit, (-1)*unit,	   unit, -1.0f,  -1.0f,   1.0f,
+			(-1)*unit,		unit,	   unit, -1.0f,   1.0f,   1.0f,
 
 			// inspre Ox
-			 10.f,  10.f,  10.f,  1.0f,  1.0f,  1.0f,
-			 10.f,  10.f, -10.f,  1.0f,  1.0f,  -1.0f,
-			 10.f, -10.f, -10.f,  1.0f,  -1.0f,  -1.0f,
-			 10.f, -10.f, -10.f,  1.0f,  -1.0f,  -1.0f,
-			 10.f, -10.f,  10.f,  1.0f,  -1.0f,  1.0f,
-			 10.f,  10.f,  10.f,  1.0f,  1.0f,  1.0f,
+			 unit,		unit,	   unit,  1.0f,   1.0f,   1.0f,
+			 unit,		unit, (-1)*unit,  1.0f,   1.0f,  -1.0f,
+			 unit, (-1)*unit, (-1)*unit,  1.0f,  -1.0f,  -1.0f,
+			 unit, (-1)*unit, (-1)*unit,  1.0f,  -1.0f,  -1.0f,
+			 unit, (-1)*unit,      unit,  1.0f,  -1.0f,   1.0f,
+			 unit,		unit,      unit,  1.0f,   1.0f,   1.0f,
 
 			 // inspre Oy'
-			-10.f, -10.f, -10.f,  -1.0f, -1.0f,  -1.0f,
-			 10.f, -10.f, -10.f,  1.0f, -1.0f,  -1.0f,
-			 10.f, -10.f,  10.f,  1.0f, -1.0f,  1.0f,
-			 10.f, -10.f,  10.f,  1.0f, -1.0f,  1.0f,
-			-10.f, -10.f,  10.f,  -1.0f, -1.0f,  1.0f,
-			-10.f, -10.f, -10.f,  -1.0f, -1.0f,  -1.0f,
+			(-1)*unit, (-1)*unit, (-1)*unit,  -1.0f, -1.0f,  -1.0f,
+				 unit, (-1)*unit, (-1)*unit,   1.0f, -1.0f,  -1.0f,
+				 unit, (-1)*unit,	   unit,   1.0f, -1.0f,   1.0f,
+				 unit, (-1)*unit,	   unit,   1.0f, -1.0f,   1.0f,
+			(-1)*unit, (-1)*unit,	   unit,  -1.0f, -1.0f,   1.0f,
+			(-1)*unit, (-1)*unit, (-1)*unit,  -1.0f, -1.0f,  -1.0f,
 
 			// inspre Oy
-			-10.f,  10.f, -10.f,  -1.0f,  1.0f,  -1.0f,
-			 10.f,  10.f, -10.f,  1.0f,  1.0f,  -1.0f,
-			 10.f,  10.f,  10.f,  1.0f,  1.0f,  1.0f,
-			 10.f,  10.f,  10.f,  1.0f,  1.0f,  1.0f,
-			-10.f,  10.f,  10.f,  -1.0f,  1.0f,  1.0f,
-			-10.f,  10.f, -10.f,  -1.0f,  1.0f,  -1.0f
+			(-1)*unit,  unit, (-1)*unit,  -1.0f,  1.0f,  -1.0f,
+				 unit,  unit, (-1)*unit,   1.0f,  1.0f,  -1.0f,
+				 unit,  unit,	   unit,   1.0f,  1.0f,   1.0f,
+				 unit,  unit,	   unit,   1.0f,  1.0f,   1.0f,
+			(-1)*unit,  unit,	   unit,  -1.0f,  1.0f,   1.0f,
+			(-1)*unit,  unit, (-1)*unit,  -1.0f,  1.0f,  -1.0f
 	};
 
 	glGenVertexArrays(1, &VaoId);
