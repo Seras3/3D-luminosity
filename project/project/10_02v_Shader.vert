@@ -7,6 +7,7 @@ layout(location=1) in vec3 in_Normal;
 out vec4 gl_Position; 
 out vec4 ex_Color;
 
+uniform mat4 myMatrix;
 uniform mat4 view;
 uniform mat4 projection;
 uniform vec3 lightPos;
@@ -17,14 +18,14 @@ uniform vec3 lightColor;
 void main(void)
   {
     // aplicare transformari si determinare pozitii
-    gl_Position = projection*view*vec4(in_Position, 1.0);
-    vec3 Normal=vec3(projection*view*vec4(in_Normal,0.0)); 
+    gl_Position = projection*view*myMatrix*vec4(in_Position, 1.0);
+    vec3 Normal=vec3(projection*view*myMatrix*vec4(in_Normal,0.0)); 
     vec3 inLightPos= vec3(projection*view* vec4(lightPos, 1.0f));
     vec3 inViewPos=vec3(projection*view* vec4(viewPos, 1.0f));
     vec3 FragPos = vec3(gl_Position);
 
     // Ambient
-    float ambientStrength = 0.2f;
+    float ambientStrength = 0.5f;
     vec3 ambient_light = ambientStrength * lightColor;  // ambient_light=ambientStrength*lightColor 
     vec3 ambient_term= ambient_light * objectColor; // ambient_material=objectColor
   	

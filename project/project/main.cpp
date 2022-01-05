@@ -26,9 +26,8 @@ projLocation,
 codColLocation,
 depthLocation,
 rendermode,
-l1, l2,
 codCol;
-GLint objectColorLoc, lightColorLoc, lightPosLoc, viewPosLoc;
+GLint objectColorLoc, lightColorLoc, lightPosLoc, viewPosLoc, myMatrixLoc;
 
 // variabile pentru matricea de vizualizare
 float Obsx = 0.0, Obsy = -600.0, Obsz = 0.f;
@@ -37,18 +36,11 @@ float Vx = 0.0, Vy = 0.0, Vz = 1.0;
 
 // variabile pentru matricea de proiectie
 float width = 800, height = 600, znear = 0.1, fov = 45;
+float PI = 3.141592;
 
 // matrice utilizate
-glm::mat4 view, projection;
+glm::mat4 view, projection, myMatrix, rotationMat, translationMat, scaleMat;
 
-enum {
-	Il_Frag, Il_Frag_Av, Il_Vert, Il_Vert_Av
-};
-void menu(int selection)
-{
-	rendermode = selection;
-	glutPostRedisplay();
-}
 void processNormalKeys(unsigned char key, int x, int y)
 {
 	switch (key) {
@@ -90,56 +82,6 @@ void CreateVBO(void)
 	// varfurile 
 	GLfloat Vertices[] =
 	{
-		// inspre Oz'
-		  -50.f, -50.f, -50.f,  0.0f,  0.0f, -1.0f,
-		   50.f, -50.f, -50.f,  0.0f,  0.0f, -1.0f,
-		   50.f,  50.f, -50.f,  0.0f,  0.0f, -1.0f,
-		   50.f,  50.f, -50.f,  0.0f,  0.0f, -1.0f,
-		  -50.f,  50.f, -50.f,  0.0f,  0.0f, -1.0f,
-		  -50.f, -50.f, -50.f,  0.0f,  0.0f, -1.0f,
-
-		  // inspre Oz
-		  -50.f, -50.f,  50.f,  0.0f,  0.0f,  1.0f,
-		   50.f, -50.f,  50.f,  0.0f,  0.0f,  1.0f,
-		   50.f,  50.f,  50.f,  0.0f,  0.0f,  1.0f,
-		   50.f,  50.f,  50.f,  0.0f,  0.0f,  1.0f,
-		  -50.f,  50.f,  50.f,  0.0f,  0.0f,  1.0f,
-		  -50.f, -50.f,  50.f,  0.0f,  0.0f,  1.0f,
-
-		  // inspre Ox'
-		  -50.f,  50.f,  50.f, -1.0f,  0.0f,  0.0f,
-		  -50.f,  50.f, -50.f, -1.0f,  0.0f,  0.0f,
-		  -50.f, -50.f, -50.f, -1.0f,  0.0f,  0.0f,
-		  -50.f, -50.f, -50.f, -1.0f,  0.0f,  0.0f,
-		  -50.f, -50.f,  50.f, -1.0f,  0.0f,  0.0f,
-		  -50.f,  50.f,  50.f, -1.0f,  0.0f,  0.0f,
-
-		  // inspre Ox
-		   50.f,  50.f,  50.f,  1.0f,  0.0f,  0.0f,
-		   50.f,  50.f, -50.f,  1.0f,  0.0f,  0.0f,
-		   50.f, -50.f, -50.f,  1.0f,  0.0f,  0.0f,
-		   50.f, -50.f, -50.f,  1.0f,  0.0f,  0.0f,
-		   50.f, -50.f,  50.f,  1.0f,  0.0f,  0.0f,
-		   50.f,  50.f,  50.f,  1.0f,  0.0f,  0.0f,
-
-		   // inspre Oy'
-		  -50.f, -50.f, -50.f,  0.0f, -1.0f,  0.0f,
-		   50.f, -50.f, -50.f,  0.0f, -1.0f,  0.0f,
-		   50.f, -50.f,  50.f,  0.0f, -1.0f,  0.0f,
-		   50.f, -50.f,  50.f,  0.0f, -1.0f,  0.0f,
-		  -50.f, -50.f,  50.f,  0.0f, -1.0f,  0.0f,
-		  -50.f, -50.f, -50.f,  0.0f, -1.0f,  0.0f,
-
-		  // inspre Oy
-		  -50.f,  50.f, -50.f,  0.0f,  1.0f,  0.0f,
-		   50.f,  50.f, -50.f,  0.0f,  1.0f,  0.0f,
-		   50.f,  50.f,  50.f,  0.0f,  1.0f,  0.0f,
-		   50.f,  50.f,  50.f,  0.0f,  1.0f,  0.0f,
-		  -50.f,  50.f,  50.f,  0.0f,  1.0f,  0.0f,
-		  -50.f,  50.f, -50.f,  0.0f,  1.0f,  0.0f,
-
-		  // Fiecare varf cu normala lui
-
 		  // inspre Oz'
 			-50.f, -50.f, -50.f,  -1.0f,  -1.0f, -1.0f,
 			 50.f, -50.f, -50.f,  1.0f,  -1.0f, -1.0f,
@@ -214,27 +156,14 @@ void CreateShadersVertex(void)
 	ProgramIdv = LoadShaders("10_02v_Shader.vert", "10_02v_Shader.frag");
 	glUseProgram(ProgramIdv);
 }
-void CreateShadersFragment(void)
-{
-	ProgramIdf = LoadShaders("10_02f_Shader.vert", "10_02f_Shader.frag");
-	glUseProgram(ProgramIdf);
-}
 void DestroyShaders(void)
 {
 	glDeleteProgram(ProgramIdv);
-	glDeleteProgram(ProgramIdf);
 }
 void Initialize(void)
 {
-	glClearColor(1.0f, 1.0f, 1.0f, 0.0f); // culoarea de fond a ecranului
+	glClearColor(1.0f, 1.0f, 1.0f, 0.0f); 
 	CreateVBO();
-	CreateShadersFragment();
-	objectColorLoc = glGetUniformLocation(ProgramIdf, "objectColor");
-	lightColorLoc = glGetUniformLocation(ProgramIdf, "lightColor");
-	lightPosLoc = glGetUniformLocation(ProgramIdf, "lightPos");
-	viewPosLoc = glGetUniformLocation(ProgramIdf, "viewPos");
-	viewLocation = glGetUniformLocation(ProgramIdf, "view");
-	projLocation = glGetUniformLocation(ProgramIdf, "projection");
 	CreateShadersVertex();
 	objectColorLoc = glGetUniformLocation(ProgramIdv, "objectColor");
 	lightColorLoc = glGetUniformLocation(ProgramIdv, "lightColor");
@@ -242,6 +171,7 @@ void Initialize(void)
 	viewPosLoc = glGetUniformLocation(ProgramIdv, "viewPos");
 	viewLocation = glGetUniformLocation(ProgramIdv, "view");
 	projLocation = glGetUniformLocation(ProgramIdv, "projection");
+	myMatrixLoc = glGetUniformLocation(ProgramIdv, "myMatrix");
 }
 void RenderFunction(void)
 {
@@ -261,28 +191,21 @@ void RenderFunction(void)
 	glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
 	glUniform3f(lightPosLoc, 400.f, -400.f, 400.f);
 	glUniform3f(viewPosLoc, Obsx, Obsy, Obsz);
-	switch (rendermode)
-	{
-	case Il_Frag:
-		glUseProgram(ProgramIdf);
-		l1 = 0; l2 = 36;
-		break;
-	case Il_Frag_Av:
-		glUseProgram(ProgramIdf);
-		l1 = 36; l2 = 36;
-		break;
-	case Il_Vert:
-		glUseProgram(ProgramIdv);
-		l1 = 0; l2 = 36;
-		break;
-	case Il_Vert_Av:
-		glUseProgram(ProgramIdv);
-		l1 = 36; l2 = 36;
-		break;
-	};
-
+	
 	// desenare
-	glDrawArrays(GL_TRIANGLES, l1, l2);
+	rotationMat = glm::rotate(glm::mat4(1.0f), PI/2, glm::vec3(0, 0.0f, 1.0f));
+	translationMat = glm::translate(glm::mat4(1.0f), glm::vec3(50, 50, 0));
+	scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(4.0f, 0.2f, 1.0f));
+
+	myMatrix = scaleMat;
+	glUniformMatrix4fv(myMatrixLoc, 1, GL_FALSE, &myMatrix[0][0]);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+
+	
+	myMatrix = translationMat * rotationMat * scaleMat;
+	glUniformMatrix4fv(myMatrixLoc, 1, GL_FALSE, &myMatrix[0][0]);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+
 
 	glutSwapBuffers();
 	glFlush();
@@ -298,19 +221,13 @@ int main(int argc, char* argv[])
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(1200, 900);
-	glutCreateWindow("Implementarea modelului de iluminare");
+	glutCreateWindow("3D Luminosity");
 	glewInit();
 	Initialize();
 	glutIdleFunc(RenderFunction);
 	glutDisplayFunc(RenderFunction);
 	glutKeyboardFunc(processNormalKeys);
 	glutSpecialFunc(processSpecialKeys);
-	glutCreateMenu(menu);
-	glutAddMenuEntry("Fragment", Il_Frag);
-	glutAddMenuEntry("Fragment+Mediere_Normale", Il_Frag_Av);
-	glutAddMenuEntry("Varfuri", Il_Vert);
-	glutAddMenuEntry("Varfuri+Mediere_Normale", Il_Vert_Av);
-	glutAttachMenu(GLUT_RIGHT_BUTTON);
 	glutCloseFunc(Cleanup);
 	glutMainLoop();
 
