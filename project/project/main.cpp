@@ -42,6 +42,8 @@ float PI = 3.141592;
 glm::mat4 view, projection, myMatrix, rotationMat, translationMat, scaleMat;
 
 float unit = 10;
+float spacing = 10;
+float LPlank = 100, lPlank = 20, hPlank = 5;
 
 void processNormalKeys(unsigned char key, int x, int y)
 {
@@ -178,21 +180,17 @@ void Initialize(void)
 
 void DrawPlank(float rotationAngle, glm::vec3 rotationAxis, glm::vec3 translation) {
 	translationMat = glm::translate(glm::mat4(1.0f), translation);
-	scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(10.0f, 0.5f, 2.0f));
+	scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(LPlank/unit, hPlank / unit, lPlank / unit));
 	if (rotationAngle != 0) {
-
 		rotationMat = glm::rotate(glm::mat4(1.0f), rotationAngle, rotationAxis);
 		myMatrix = translationMat * rotationMat * scaleMat;
 	}
 	else {
 		myMatrix = translationMat * scaleMat;
 	}
-
 	glUniformMatrix4fv(myMatrixLoc, 1, GL_FALSE, &myMatrix[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
-
-
 
 void DrawPlanks() {
 	// de jos
@@ -210,16 +208,23 @@ void DrawPlanks() {
 	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, 100, 150));
 }
 
-void drawMargin(glm::vec3 translation, float barHeight) {
+void drawMargin(glm::vec3 translation, glm::vec3 scale) {
 	translationMat = glm::translate(glm::mat4(1.0f), translation);
-	scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, barHeight));
+	scaleMat = glm::scale(glm::mat4(1.0f), scale);
 	myMatrix = translationMat * scaleMat;
 	glUniformMatrix4fv(myMatrixLoc, 1, GL_FALSE, &myMatrix[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
+
 void DrawMargins() {
-	drawMargin(glm::vec3(100, 100, 50), 13.0f);
-	drawMargin(glm::vec3(-100, 100, 50), 13.0f);
+	drawMargin(glm::vec3(100, 100, 50), glm::vec3(1.0f, 1.0f, 13.0f));
+	drawMargin(glm::vec3(-100, 100, 50), glm::vec3(1.0f,1.0f,13.0f));
+
+	drawMargin(glm::vec3(100, 25, 25), glm::vec3(1.0f, 6.0f, 1.0f));
+	drawMargin(glm::vec3(-100,25, 25), glm::vec3(1.0f, 6.0f, 1.0f));
+
+	drawMargin(glm::vec3(100, -50, -25), glm::vec3(1.0f, 1.0f, 6.0f));
+	drawMargin(glm::vec3(-100, -50, -25), glm::vec3(1.0f, 1.0f, 6.0f));
 }
 
 
