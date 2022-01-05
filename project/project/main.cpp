@@ -83,52 +83,52 @@ void CreateVBO(void)
 	GLfloat Vertices[] =
 	{
 		  // inspre Oz'
-			-50.f, -50.f, -50.f,  -1.0f,  -1.0f, -1.0f,
-			 50.f, -50.f, -50.f,  1.0f,  -1.0f, -1.0f,
-			 50.f,  50.f, -50.f,  1.0f,  1.0f, -1.0f,
-			 50.f,  50.f, -50.f,  1.0f,  1.0f, -1.0f,
-			-50.f,  50.f, -50.f,  -1.0f,  1.0f, -1.0f,
-			-50.f, -50.f, -50.f,  -1.0f,  -1.0f, -1.0f,
+			-10.f, -10.f, -10.f,  -1.0f,  -1.0f, -1.0f,
+			 10.f, -10.f, -10.f,  1.0f,  -1.0f, -1.0f,
+			 10.f,  10.f, -10.f,  1.0f,  1.0f, -1.0f,
+			 10.f,  10.f, -10.f,  1.0f,  1.0f, -1.0f,
+			-10.f,  10.f, -10.f,  -1.0f,  1.0f, -1.0f,
+			-10.f, -10.f, -10.f,  -1.0f,  -1.0f, -1.0f,
 
 			// inspre Oz
-			-50.f, -50.f,  50.f,  -1.0f,  -1.0f,  1.0f,
-			 50.f, -50.f,  50.f,  1.0f,  -1.0f,  1.0f,
-			 50.f,  50.f,  50.f,  1.0f,  1.0f,  1.0f,
-			 50.f,  50.f,  50.f,  1.0f,  1.0f,  1.0f,
-			-50.f,  50.f,  50.f,  -1.0f,  1.0f,  1.0f,
-			-50.f, -50.f,  50.f,  -1.0f,  -1.0f,  1.0f,
+			-10.f, -10.f,  10.f,  -1.0f,  -1.0f,  1.0f,
+			 10.f, -10.f,  10.f,  1.0f,  -1.0f,  1.0f,
+			 10.f,  10.f,  10.f,  1.0f,  1.0f,  1.0f,
+			 10.f,  10.f,  10.f,  1.0f,  1.0f,  1.0f,
+			-10.f,  10.f,  10.f,  -1.0f,  1.0f,  1.0f,
+			-10.f, -10.f,  10.f,  -1.0f,  -1.0f,  1.0f,
 
 			// inspre Ox'
-			-50.f,  50.f,  50.f, -1.0f,  1.0f,  1.0f,
-			-50.f,  50.f, -50.f, -1.0f,  1.0f,  -1.0f,
-			-50.f, -50.f, -50.f, -1.0f,  -1.0f,  -1.0f,
-			-50.f, -50.f, -50.f, -1.0f,  -1.0f,  -1.0f,
-			-50.f, -50.f,  50.f, -1.0f,  -1.0f,  1.0f,
-			-50.f,  50.f,  50.f, -1.0f,  1.0f,  1.0f,
+			-10.f,  10.f,  10.f, -1.0f,  1.0f,  1.0f,
+			-10.f,  10.f, -10.f, -1.0f,  1.0f,  -1.0f,
+			-10.f, -10.f, -10.f, -1.0f,  -1.0f,  -1.0f,
+			-10.f, -10.f, -10.f, -1.0f,  -1.0f,  -1.0f,
+			-10.f, -10.f,  10.f, -1.0f,  -1.0f,  1.0f,
+			-10.f,  10.f,  10.f, -1.0f,  1.0f,  1.0f,
 
 			// inspre Ox
-			 50.f,  50.f,  50.f,  1.0f,  1.0f,  1.0f,
-			 50.f,  50.f, -50.f,  1.0f,  1.0f,  -1.0f,
-			 50.f, -50.f, -50.f,  1.0f,  -1.0f,  -1.0f,
-			 50.f, -50.f, -50.f,  1.0f,  -1.0f,  -1.0f,
-			 50.f, -50.f,  50.f,  1.0f,  -1.0f,  1.0f,
-			 50.f,  50.f,  50.f,  1.0f,  1.0f,  1.0f,
+			 10.f,  10.f,  10.f,  1.0f,  1.0f,  1.0f,
+			 10.f,  10.f, -10.f,  1.0f,  1.0f,  -1.0f,
+			 10.f, -10.f, -10.f,  1.0f,  -1.0f,  -1.0f,
+			 10.f, -10.f, -10.f,  1.0f,  -1.0f,  -1.0f,
+			 10.f, -10.f,  10.f,  1.0f,  -1.0f,  1.0f,
+			 10.f,  10.f,  10.f,  1.0f,  1.0f,  1.0f,
 
 			 // inspre Oy'
-			-50.f, -50.f, -50.f,  -1.0f, -1.0f,  -1.0f,
-			 50.f, -50.f, -50.f,  1.0f, -1.0f,  -1.0f,
-			 50.f, -50.f,  50.f,  1.0f, -1.0f,  1.0f,
-			 50.f, -50.f,  50.f,  1.0f, -1.0f,  1.0f,
-			-50.f, -50.f,  50.f,  -1.0f, -1.0f,  1.0f,
-			-50.f, -50.f, -50.f,  -1.0f, -1.0f,  -1.0f,
+			-10.f, -10.f, -10.f,  -1.0f, -1.0f,  -1.0f,
+			 10.f, -10.f, -10.f,  1.0f, -1.0f,  -1.0f,
+			 10.f, -10.f,  10.f,  1.0f, -1.0f,  1.0f,
+			 10.f, -10.f,  10.f,  1.0f, -1.0f,  1.0f,
+			-10.f, -10.f,  10.f,  -1.0f, -1.0f,  1.0f,
+			-10.f, -10.f, -10.f,  -1.0f, -1.0f,  -1.0f,
 
 			// inspre Oy
-			-50.f,  50.f, -50.f,  -1.0f,  1.0f,  -1.0f,
-			 50.f,  50.f, -50.f,  1.0f,  1.0f,  -1.0f,
-			 50.f,  50.f,  50.f,  1.0f,  1.0f,  1.0f,
-			 50.f,  50.f,  50.f,  1.0f,  1.0f,  1.0f,
-			-50.f,  50.f,  50.f,  -1.0f,  1.0f,  1.0f,
-			-50.f,  50.f, -50.f,  -1.0f,  1.0f,  -1.0f
+			-10.f,  10.f, -10.f,  -1.0f,  1.0f,  -1.0f,
+			 10.f,  10.f, -10.f,  1.0f,  1.0f,  -1.0f,
+			 10.f,  10.f,  10.f,  1.0f,  1.0f,  1.0f,
+			 10.f,  10.f,  10.f,  1.0f,  1.0f,  1.0f,
+			-10.f,  10.f,  10.f,  -1.0f,  1.0f,  1.0f,
+			-10.f,  10.f, -10.f,  -1.0f,  1.0f,  -1.0f
 	};
 
 	glGenVertexArrays(1, &VaoId);
@@ -173,6 +173,31 @@ void Initialize(void)
 	projLocation = glGetUniformLocation(ProgramIdv, "projection");
 	myMatrixLoc = glGetUniformLocation(ProgramIdv, "myMatrix");
 }
+
+void DrawPlank(float rotationAngle, glm::vec3 rotationAxis, glm::vec3 translation) {
+	translationMat = glm::translate(glm::mat4(1.0f), translation);
+	scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(10.0f, 0.5f, 2.0f));
+	if (rotationAngle != 0) {
+
+		rotationMat = glm::rotate(glm::mat4(1.0f), rotationAngle, rotationAxis);
+		myMatrix = translationMat * rotationMat * scaleMat;
+	}
+	else {
+		myMatrix = translationMat * scaleMat;
+	}
+
+	glUniformMatrix4fv(myMatrixLoc, 1, GL_FALSE, &myMatrix[0][0]);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+}
+
+
+
+void DrawBench() {
+	// de jos
+	DrawPlank(0.f, glm::vec3(0.f ,0.f, 0.f), glm::vec3(0, -50, -50));
+	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, -50,   0));
+}
+
 void RenderFunction(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -191,21 +216,8 @@ void RenderFunction(void)
 	glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
 	glUniform3f(lightPosLoc, 400.f, -400.f, 400.f);
 	glUniform3f(viewPosLoc, Obsx, Obsy, Obsz);
-	
-	// desenare
-	rotationMat = glm::rotate(glm::mat4(1.0f), PI/2, glm::vec3(0, 0.0f, 1.0f));
-	translationMat = glm::translate(glm::mat4(1.0f), glm::vec3(50, 50, 0));
-	scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(4.0f, 0.2f, 1.0f));
 
-	myMatrix = scaleMat;
-	glUniformMatrix4fv(myMatrixLoc, 1, GL_FALSE, &myMatrix[0][0]);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-
-	
-	myMatrix = translationMat * rotationMat * scaleMat;
-	glUniformMatrix4fv(myMatrixLoc, 1, GL_FALSE, &myMatrix[0][0]);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-
+	DrawBench();
 
 	glutSwapBuffers();
 	glFlush();
