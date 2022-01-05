@@ -17,6 +17,8 @@
   <ItemGroup>
     <None Include="10_02v_Shader.frag" />
     <None Include="10_02v_Shader.vert" />
+    <None Include="10_02f_Shader.vert" />
+    <None Include="10_02f_Shader.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="loadShaders.cpp">
