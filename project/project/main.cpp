@@ -41,6 +41,8 @@ float PI = 3.141592;
 // matrice utilizate
 glm::mat4 view, projection, myMatrix, rotationMat, translationMat, scaleMat;
 
+float unit = 10;
+
 void processNormalKeys(unsigned char key, int x, int y)
 {
 	switch (key) {
@@ -192,11 +194,34 @@ void DrawPlank(float rotationAngle, glm::vec3 rotationAxis, glm::vec3 translatio
 
 
 
-void DrawBench() {
+void DrawPlanks() {
 	// de jos
-	DrawPlank(0.f, glm::vec3(0.f ,0.f, 0.f), glm::vec3(0, -50, -50));
-	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, -50,   0));
+	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, -50, -50));
+	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, -50, 0));
+
+	// de stat
+	DrawPlank(PI/2, glm::vec3(1.f, 0.f, 0.f), glm::vec3(0, -25, 25));
+	DrawPlank(PI/2, glm::vec3(1.f, 0.f, 0.f), glm::vec3(0, 25, 25));
+	DrawPlank(PI/2, glm::vec3(1.f, 0.f, 0.f), glm::vec3(0, 75, 25));
+
+	// de sus
+	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, 100, 50));
+	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, 100, 100));
+	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, 100, 150));
 }
+
+void drawMargin(glm::vec3 translation, float barHeight) {
+	translationMat = glm::translate(glm::mat4(1.0f), translation);
+	scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, barHeight));
+	myMatrix = translationMat * scaleMat;
+	glUniformMatrix4fv(myMatrixLoc, 1, GL_FALSE, &myMatrix[0][0]);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+}
+void DrawMargins() {
+	drawMargin(glm::vec3(100, 100, 50), 13.0f);
+	drawMargin(glm::vec3(-100, 100, 50), 13.0f);
+}
+
 
 void RenderFunction(void)
 {
@@ -217,7 +242,8 @@ void RenderFunction(void)
 	glUniform3f(lightPosLoc, 400.f, -400.f, 400.f);
 	glUniform3f(viewPosLoc, Obsx, Obsy, Obsz);
 
-	DrawBench();
+	DrawPlanks();
+	DrawMargins();
 
 	glutSwapBuffers();
 	glFlush();
