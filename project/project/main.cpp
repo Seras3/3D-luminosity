@@ -333,6 +333,7 @@ void DrawMargin(glm::vec3 translation, glm::vec3 scale) {
 }
 
 void DrawMargins() {
+	glUniform3f(objectColorLoc, 0.f, 0.f, 0.f);
 	DrawMargin(glm::vec3(100, 100, 50), glm::vec3(1.0f, 1.0f, 13.0f));
 	DrawMargin(glm::vec3(-100, 100, 50), glm::vec3(1.0f,1.0f,13.0f));
 
@@ -345,6 +346,7 @@ void DrawMargins() {
 
 void DrawFloor() 
 {
+	glUniform3f(objectColorLoc, 0.1f, 1.0f, 0.1f);
 	translationMat = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -8*unit));
 	scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(1000.0f, 1000.0f, 0.1f));
 	myMatrix = translationMat * scaleMat;
