@@ -11,6 +11,7 @@
 #include "glm/glm/gtc/matrix_transform.hpp"
 #include "glm/glm/gtx/transform.hpp"
 #include "glm/glm/gtc/type_ptr.hpp"
+#include "SOIL.h"
 
 using namespace std;
 
@@ -25,10 +26,17 @@ viewLocation,
 projLocation,
 codColLocation,
 depthLocation,
+matrUmbraLocation,
 rendermode,
+TextureId,
 l1, l2,
-codCol;
+codCol,
+texture;
+
 GLint objectColorLoc, lightColorLoc, lightPosLoc, viewPosLoc, myMatrixLoc;
+
+// matricea umbrei
+float matrUmbra[4][4];
 
 // variabile pentru matricea de vizualizare
 float Obsx = 0.0, Obsy = -600.0, Obsz = 0.f;
@@ -44,7 +52,7 @@ glm::mat4 view, projection, myMatrix, rotationMat, translationMat, scaleMat;
 
 float unit = 10;
 float spacing = 10;
-float LPlank = 100, lPlank = 20, hPlank = 5;
+float LPlank = 250, lPlank = 20, hPlank = 5;
 
 float XLight = -400, YLight = 0, ZLight = 400;
 
@@ -237,6 +245,54 @@ void CreateVBO(void)
 			(-1)*unit,  unit, (-1)*unit,	  -1.0f,  1.0f,  -1.0f
 	};
 
+
+
+	static const GLfloat Textures[] =
+	{
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f
+	};
+
+
 	glGenVertexArrays(1, &VaoId);
 	glGenBuffers(1, &VboId);
 	glBindVertexArray(VaoId);
@@ -247,16 +303,63 @@ void CreateVBO(void)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(1); // atributul 1 = normale
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+
+
+	glGenBuffers(1, &TextureId);
+	glBindBuffer(GL_ARRAY_BUFFER, TextureId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Textures), Textures, GL_STATIC_DRAW);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(2);
 }
 void DestroyVBO(void)
 {
+	glDisableVertexAttribArray(2);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glDeleteBuffers(1, &TextureId);
 	glDeleteBuffers(1, &VboId);
 	glBindVertexArray(0);
 	glDeleteVertexArrays(1, &VaoId);
 }
+
+void LoadTexture(const char* imageName)
+{
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	int width, height;
+	unsigned char* image = SOIL_load_image(imageName, &width, &height, 0, SOIL_LOAD_RGB);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	SOIL_free_image_data(image);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void setTexCode(int texCode) {
+	glUniform1i(glGetUniformLocation(ProgramIdf, "tex_code"), texCode);
+	glUniform1i(glGetUniformLocation(ProgramIdv, "tex_code"), texCode);
+}
+
+
+void setMatriceUmbra(float xL, float yL, float zL) {
+	float D = 77.0f;
+	matrUmbra[0][0] = zL + D; matrUmbra[0][1] = 0; matrUmbra[0][2] = 0; matrUmbra[0][3] = 0;
+	matrUmbra[1][0] = 0; matrUmbra[1][1] = zL + D; matrUmbra[1][2] = 0; matrUmbra[1][3] = 0;
+	matrUmbra[2][0] = -xL; matrUmbra[2][1] = -yL; matrUmbra[2][2] = D; matrUmbra[2][3] = -1;
+	matrUmbra[3][0] = -D * xL; matrUmbra[3][1] = -D * yL; matrUmbra[3][2] = -D * zL; matrUmbra[3][3] = zL;
+
+	matrUmbraLocation = glGetUniformLocation(ProgramIdv, "matrUmbra");
+	matrUmbraLocation = glGetUniformLocation(ProgramIdf, "matrUmbra");
+	glUniformMatrix4fv(matrUmbraLocation, 1, GL_FALSE, &matrUmbra[0][0]);
+}
+
 void CreateShadersFragment(void)
 {
 	ProgramIdf = LoadShaders("10_02f_Shader.vert", "10_02f_Shader.frag");
@@ -274,7 +377,7 @@ void DestroyShaders(void)
 }
 void Initialize(void)
 {
-	glClearColor(1.0f, 1.0f, 1.0f, 0.0f); 
+	glClearColor(0.0f, 0.0f, 0.5f, 0.1f); 
 	CreateVBO();
 	CreateShadersFragment();
 	objectColorLoc = glGetUniformLocation(ProgramIdf, "objectColor");
@@ -284,6 +387,7 @@ void Initialize(void)
 	viewLocation = glGetUniformLocation(ProgramIdf, "view");
 	projLocation = glGetUniformLocation(ProgramIdf, "projection");
 	myMatrixLoc = glGetUniformLocation(ProgramIdf, "myMatrix");
+	codColLocation = glGetUniformLocation(ProgramIdf, "codCol");
 	CreateShadersVertex();
 	objectColorLoc = glGetUniformLocation(ProgramIdv, "objectColor");
 	lightColorLoc = glGetUniformLocation(ProgramIdv, "lightColor");
@@ -292,6 +396,7 @@ void Initialize(void)
 	viewLocation = glGetUniformLocation(ProgramIdv, "view");
 	projLocation = glGetUniformLocation(ProgramIdv, "projection");
 	myMatrixLoc = glGetUniformLocation(ProgramIdv, "myMatrix");
+	codColLocation = glGetUniformLocation(ProgramIdv, "codCol");
 }
 
 void DrawPlank(float rotationAngle, glm::vec3 rotationAxis, glm::vec3 translation) {
@@ -309,6 +414,12 @@ void DrawPlank(float rotationAngle, glm::vec3 rotationAxis, glm::vec3 translatio
 }
 
 void DrawPlanks() {
+	const char* imageName = "wood.png";
+	LoadTexture(imageName);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	setTexCode(1);
+
 	// de jos
 	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, -50, -50));
 	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, -50, 0));
@@ -322,6 +433,8 @@ void DrawPlanks() {
 	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, 100, 50));
 	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, 100, 100));
 	DrawPlank(0.f, glm::vec3(0.f, 0.f, 0.f), glm::vec3(0, 100, 150));
+
+	setTexCode(0);
 }
 
 void DrawMargin(glm::vec3 translation, glm::vec3 scale) {
@@ -334,28 +447,48 @@ void DrawMargin(glm::vec3 translation, glm::vec3 scale) {
 
 void DrawMargins() {
 	glUniform3f(objectColorLoc, 0.f, 0.f, 0.f);
-	DrawMargin(glm::vec3(100, 100, 50), glm::vec3(1.0f, 1.0f, 13.0f));
-	DrawMargin(glm::vec3(-100, 100, 50), glm::vec3(1.0f,1.0f,13.0f));
+	DrawMargin(glm::vec3(LPlank, 100, 50), glm::vec3(1.0f, 1.0f, 13.0f));
+	DrawMargin(glm::vec3(-LPlank, 100, 50), glm::vec3(1.0f,1.0f,13.0f));
 
-	DrawMargin(glm::vec3(100, 25, 25), glm::vec3(1.0f, 6.0f, 1.0f));
-	DrawMargin(glm::vec3(-100,25, 25), glm::vec3(1.0f, 6.0f, 1.0f));
+	DrawMargin(glm::vec3(LPlank, 25, 25), glm::vec3(1.0f, 6.0f, 1.0f));
+	DrawMargin(glm::vec3(-LPlank,25, 25), glm::vec3(1.0f, 6.0f, 1.0f));
 
-	DrawMargin(glm::vec3(100, -50, -25), glm::vec3(1.0f, 1.0f, 6.0f));
-	DrawMargin(glm::vec3(-100, -50, -25), glm::vec3(1.0f, 1.0f, 6.0f));
+	DrawMargin(glm::vec3(LPlank, -50, -25), glm::vec3(1.0f, 1.0f, 6.0f));
+	DrawMargin(glm::vec3(-LPlank, -50, -25), glm::vec3(1.0f, 1.0f, 6.0f));
+}
+
+void DrawBenchShadows() {
+	glUniform1i(codColLocation, 1);
+
+	DrawPlanks();
+	DrawMargins();
+
+	glUniform1i(codColLocation, 0);
 }
 
 void DrawFloor() 
 {
-	glUniform3f(objectColorLoc, 0.1f, 1.0f, 0.1f);
+	const char* imageName = "grass.png";
+	LoadTexture(imageName);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glUniform1i(glGetUniformLocation(ProgramIdf, "myTexture"), 0);
+	glUniform1i(glGetUniformLocation(ProgramIdv, "myTexture"), 0);
+
 	translationMat = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -8*unit));
 	scaleMat = glm::scale(glm::mat4(1.0f), glm::vec3(1000.0f, 1000.0f, 0.1f));
 	myMatrix = translationMat * scaleMat;
 	glUniformMatrix4fv(myMatrixLoc, 1, GL_FALSE, &myMatrix[0][0]);
+
+	setTexCode(1);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
+
+	setTexCode(0);
 }
 
 void DrawLight()
 {
+	glUniform3f(objectColorLoc, 1.f, 1.f, 0.f);
 	translationMat = glm::translate(glm::mat4(1.0f), glm::vec3(XLight, YLight, ZLight));
 	myMatrix = translationMat;
 	glUniformMatrix4fv(myMatrixLoc, 1, GL_FALSE, &myMatrix[0][0]);
@@ -363,6 +496,7 @@ void DrawLight()
 }
 
 void DrawSun() {
+	glUniform3f(objectColorLoc, 1.f, 1.f, 0.f);
 	float rotationAngle = 2 * PI * (float)Time / (float)MAX_MINS_IN_DAY + PI;
 	rotationMat = glm::rotate(glm::mat4(1.0f), rotationAngle, glm::vec3(1, 0, 0));
 	translationMat = glm::translate(glm::mat4(1.0f), SunInitPos);
@@ -390,8 +524,10 @@ void RenderFunction(void)
 	glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
 	if (360 <= Time && Time < 1080) {
 		glUniform3f(lightPosLoc, SunPos.x, SunPos.y, SunPos.z);
+		setMatriceUmbra(SunPos.x, SunPos.y, SunPos.z);
 	} else {
 		glUniform3f(lightPosLoc, XLight, YLight, ZLight);
+		setMatriceUmbra(XLight, YLight, ZLight);
 	}
 	glUniform3f(viewPosLoc, Obsx, Obsy, Obsz);
 
@@ -415,8 +551,6 @@ void RenderFunction(void)
 		break;
 	};
 
-
-
 	DrawPlanks();
 	DrawMargins();
 	DrawFloor();
@@ -427,6 +561,7 @@ void RenderFunction(void)
 		DrawLight();
 	}
 
+	DrawBenchShadows();
 
 	glutSwapBuffers();
 	glFlush();
