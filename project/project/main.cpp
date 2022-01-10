@@ -459,10 +459,8 @@ void DrawMargins() {
 
 void DrawBenchShadows() {
 	glUniform1i(codColLocation, 1);
-
 	DrawPlanks();
 	DrawMargins();
-
 	glUniform1i(codColLocation, 0);
 }
 
