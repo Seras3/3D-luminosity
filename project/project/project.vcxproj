@@ -34,6 +34,10 @@
     <ClInclude Include="loadShaders.h" />
     <ClInclude Include="SOIL.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="grass.png" />
+    <Image Include="wood.png" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
